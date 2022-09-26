@@ -4,8 +4,14 @@ import About from './pages/About';
 import Products from './pages/Products';
 import Error from './pages/Error';
 import SharedLayout from './pages/SharedLayout';
+import { useState } from 'react';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -14,6 +20,15 @@ function App() {
           <Route path='about' element={<About />} />
           <Route path='products' elements={<Products />} />
           <Route path='products/:productId' element={<SingleProduct />} />
+          <Route path='login' element={<Login setUser={setUser} />} />
+          <Route 
+            path='dashboard' 
+            element={
+              <ProtectedRoute user={user}>
+                <Dashboard user={user} />
+              </ProtectedRoute>
+            } 
+          />
           <Route path='*' element={<Error />} />
         </Route>
       </Routes>
